@@ -22,12 +22,13 @@ const usersTbl = async () => {
             gender ENUM("Laki-Laki", "Perempuan") DEFAULT NULL,
             tgl_lahir DATE DEFAULT NULL,
             no_hp CHAR(15) DEFAULT NULL,
+            foto_user VARCHAR(255) DEFAULT NULL,
             refresh_token CHAR(255) DEFAULT NULL
          );
          `);
       }
    } catch (error) {
-      console.log("users tabel " + eorro);
+      console.log("users tabel " + error);
    };
 };
 
@@ -73,7 +74,39 @@ const register = async (body) => {
 
 const tokenUsers = async (body, id_user) => {
    try {
-      const sql = await query(`UPDATE users SET refresh_token='${body.refresh_token}' WHERE id_user='${id_user}'`)
+      const sql = await query(`UPDATE users SET refresh_token='${body.refresh_token}' WHERE id_user=${id_user}`)
+
+      return sql;
+   } catch (error) {
+      console.log("model " + error);
+   }
+}
+
+const addPhotoUsers = async (body, idUser) => {
+   try {
+      const sql = await query(`UPDATE users SET foto_user ='${body.foto_user}' WHERE id_user=${idUser}`)
+
+      return sql;
+   } catch (error) {
+      console.log("model " + error);
+   }
+}
+
+const getPhotoUsers = async (idUser) => {
+   try {
+      const sql = await query(`SELECT foto_user from users WHERE id_user=${idUser}`)
+      // const sql = await query(`UPDATE users SET foto_user = NULL WHERE id_user=${idUser}`)
+
+      return sql;
+   } catch (error) {
+      console.log("model " + error);
+   }
+}
+
+const deletePhotoUsers = async (idUser) => {
+   try {
+      const sql = await query(`UPDATE users SET foto_user = NULL WHERE id_user=${idUser}`)
+      // const sql = await query(`UPDATE users SET foto_user = NULL WHERE id_user=${idUser}`)
 
       return sql;
    } catch (error) {
@@ -83,7 +116,7 @@ const tokenUsers = async (body, id_user) => {
 
 const updateUsers = async (body, id) => {
    try {
-      const sql = await query(`UPDATE users SET fullname='${body.fullname}', gender='${body.gender}', email='${body.email}', tgl_lahir='${body.tgl_lahir}', email='${body.email}', no_hp='${body.no_hp}' WHERE id=${id}`)
+      const sql = await query(`UPDATE users SET fullname='${body.fullname}', gender='${body.gender}',  tgl_lahir='${body.tgl_lahir}', email='${body.email}', no_hp='${body.no_hp}' WHERE id_user=${id}`)
 
       return sql;
    } catch (error) {
@@ -91,15 +124,6 @@ const updateUsers = async (body, id) => {
    }
 }
 
-const deleteUsers = async (id) => {
-   try {
-      const sql = await query(`DELETE FROM users WHERE id=${id}`)
-
-      return sql;
-   } catch (error) {
-      console.log("model " + error);
-   }
-}
 
 module.exports = {
    usersTbl,
@@ -108,6 +132,9 @@ module.exports = {
    tokenUsers,
    getEmailUser,
    getTokenUser,
-   updateUsers,
-   deleteUsers
+   addPhotoUsers,
+   getPhotoUsers,
+   deletePhotoUsers,
+   updateUsers
+
 };

@@ -36,7 +36,7 @@ const register = async (req, res) => {
          password : hashPassword
       })
 
-      res.json({
+      res.satatus(201).json({
          message : "Anda berhasil mendaftar berhasil",
          data : body
       })
@@ -85,7 +85,6 @@ const login = async (req, res) => {
 const logout = async (req, res) => {
    const refreshToken = req.cookies.refreshToken
    if(!refreshToken) return res.sendStatus(204)
-   console.log(refreshToken)
 
    const user = await usersModel.getTokenUser({
       refresh_token : refreshToken
@@ -101,33 +100,17 @@ const logout = async (req, res) => {
 }
 
 const updateUser = async (req,res) => {
-   const {id} = req.params
+   const {id_user} = req.params
    const {body} = req
    try {
-      await usersModel.updateUsers(body, id)
+      await usersModel.updateUsers(body, id_user)
 
-      res.json({
+      res.status(201).json({
          message : "UPDATE users succes",
          data : {
-            id : id,
+            id_user : id_user,
             ...body
          }
-      })
-   } catch (error) {
-      res.status(500).json({
-         message : "Server eror",
-         serverMessage : error
-      })
-   }
-}
-
-const deleteUser = async (req,res) => {
-   const {id} = req.params
-   try {
-      await usersModel.deleteUsers(id)
-      res.json({
-         message: "DELETE users succes",
-         data : null
       })
    } catch (error) {
       res.status(500).json({
@@ -142,6 +125,5 @@ module.exports = {
    register,
    login,
    logout,
-   updateUser,
-   deleteUser
+   updateUser
 }
