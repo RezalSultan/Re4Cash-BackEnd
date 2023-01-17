@@ -1,21 +1,21 @@
 const usersModel = require("../model/users")
 const fs = require("fs")
 
-const validationPhotoUsers = (req, res, next) => {
-   const { activityName, activityDescription } = req.body;
-   try {
+// const validationPhotoUsers = (req, res, next) => {
+//    const { activityName, activityDescription } = req.body;
+//    try {
 
-     if (req.file === undefined) return res.status(400).json("Image required!");
+//      if (req.file === undefined) return res.status(400).json("Image required!");
  
-     if (activityName === "") return res.status(400).json("Activity name required!");
+//      if (activityName === "") return res.status(400).json("Activity name required!");
 
-     if (activityDescription === "") return res.status(400).json("Activity description required!");
+//      if (activityDescription === "") return res.status(400).json("Activity description required!");
  
-     next();
-   } catch (error) {
-     return res.status(400).json("Something went wrong!");
-   }
-};
+//      next();
+//    } catch (error) {
+//      return res.status(400).json("Something went wrong!");
+//    }
+// };
 
 const uploadPhotoUsers = async (req, res) => {
    const {id_user} = req.params
@@ -59,7 +59,6 @@ const deletePhotoUsers = async (req, res) => {
 }
 
 module.exports = {
-   validationPhotoUsers,
    uploadPhotoUsers,
    deletePhotoUsers
 }

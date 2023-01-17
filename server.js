@@ -22,7 +22,7 @@ app.use(bodyParser.json()).use(bodyParser.urlencoded({extended: true}));
 app.use(middlewareLogRequest)
 app.use(express.static("public/images/users"))
 
-app.use(routerAPI)
+app.use( routerAPI )
 app.use(errorHandling)
 
 server.listen(PORT, () => {
