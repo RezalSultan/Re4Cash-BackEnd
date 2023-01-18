@@ -52,16 +52,6 @@ const getEmailUser = async (body) => {
    }
 }
 
-const getTokenUser = async (body) => {
-   try {
-      const sql = await query(`SELECT * from users WHERE refresh_token="${body.refresh_token}"`)
-
-      return sql;
-   } catch (error) {
-      console.log("model " + error);
-   }
-}
-
 const register = async (body) => {
    try {
       const sql = await query(`INSERT INTO users (fullname, email, password) VALUES ('${body.fullname}', '${body.email}', '${body.password}')`)
@@ -131,10 +121,8 @@ module.exports = {
    register,
    tokenUsers,
    getEmailUser,
-   getTokenUser,
    addPhotoUsers,
    getPhotoUsers,
    deletePhotoUsers,
    updateUsers
-
 };

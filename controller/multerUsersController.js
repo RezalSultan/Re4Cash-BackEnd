@@ -1,24 +1,24 @@
 const usersModel = require("../model/users")
 const fs = require("fs")
 
-// const validationPhotoUsers = (req, res, next) => {
-//    const { activityName, activityDescription } = req.body;
-//    try {
+const validationPhotoUsers = (req, res, next) => {
+   const { activityName, activityDescription } = req.body;
+   try {
 
-//      if (req.file === undefined) return res.status(400).json("Image required!");
+     if (req.file === undefined) return res.status(400).json("Image required!");
  
-//      if (activityName === "") return res.status(400).json("Activity name required!");
+     if (activityName === "") return res.status(400).json("Activity name required!");
 
-//      if (activityDescription === "") return res.status(400).json("Activity description required!");
+     if (activityDescription === "") return res.status(400).json("Activity description required!");
  
-//      next();
-//    } catch (error) {
-//      return res.status(400).json("Something went wrong!");
-//    }
-// };
+     next();
+   } catch (error) {
+     return res.status(400).json("Something went wrong!");
+   }
+};
 
 const uploadPhotoUsers = async (req, res) => {
-   const {id_user} = req.params
+   const id_user = req.user.userId
    const body = req.file.filename
 
    try {
@@ -38,7 +38,7 @@ const uploadPhotoUsers = async (req, res) => {
 }
 
 const deletePhotoUsers = async (req, res) => {
-   const {id_user} = req.params
+   const id_user = req.user.userId
    const userPhoto = await usersModel.getPhotoUsers(id_user)
    const photo = userPhoto[0].foto_user
    if(!photo) return res.status(404).json({
@@ -60,5 +60,6 @@ const deletePhotoUsers = async (req, res) => {
 
 module.exports = {
    uploadPhotoUsers,
+   validationPhotoUsers,
    deletePhotoUsers
 }

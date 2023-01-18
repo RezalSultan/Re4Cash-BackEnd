@@ -61,19 +61,16 @@ const login = async (req, res) => {
       
       const userId = user[0].id_user
       const email = user[0].email
-      const accessToken = jwt.sign({userId, email}, `${process.env.ACCESS_TOKEN}`, {
-         expiresIn: "15s"
-      })
-      const refreshToken = jwt.sign({userId, email}, `${process.env.REFRESH_TOKEN}`)
+      const usersToken = jwt.sign({userId, email}, `${process.env.USERS_TOKEN}`)
 
       await usersModel.tokenUsers({
-         refresh_token : refreshToken
+         refresh_token : usersToken
          }, userId
       )
-      res.cookie("refreshToken", refreshToken, {
-         httpOnly : true
+
+      res.json({
+         authorization: `bearer ${usersToken}`
       })
-      res.json({accessToken})
    } catch (error) {
       console.log(error)
       res.status(400).json({
@@ -83,24 +80,19 @@ const login = async (req, res) => {
 }
 
 const logout = async (req, res) => {
-   const refreshToken = req.cookies.refreshToken
-   if(!refreshToken) return res.sendStatus(204)
+   const userId = req.user.userId
 
-   const user = await usersModel.getTokenUser({
-      refresh_token : refreshToken
-   })
-
-   if(!user[0]) return res.sendStatus(204)
-   const userId = user[0].id_user
    await usersModel.tokenUsers({
       refresh_token : null
    }, userId)
-   res.clearCookie("refreshToken")
-   return res.sendStatus(200)
+
+   res.json({
+      message : "anda telah logout"
+   })
 }
 
 const updateUser = async (req,res) => {
-   const {id_user} = req.params
+   const id_user = req.user.userId
    const {body} = req
    try {
       await usersModel.updateUsers(body, id_user)

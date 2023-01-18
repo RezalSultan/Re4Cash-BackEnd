@@ -2,6 +2,8 @@ const usersModel = require("../model/users")
 const alamatUsersModel = require("../model/alamatUsers")
 
 const tampilAlamatUsers = async (req, res) => {
+   console.log(req.user);
+   
    try {
       const alamat = await alamatUsersModel.getAlamatUsers()
 
@@ -16,11 +18,7 @@ const tampilAlamatUsers = async (req, res) => {
 
 const tampilAlamatUsersById = async (req, res) => {
    try {
-      const refreshToken = req.cookies.refreshToken
-      const user = await usersModel.getTokenUser({
-         refresh_token : refreshToken
-      })
-      const idUserAuth = parseInt(user[0].id_user)
+      const idUserAuth = parseInt(req.user.userId)
       const {idParams} = req.params
       const idUser = idUserAuth == idParams ? idUserAuth : null
 
@@ -45,13 +43,7 @@ const tampilAlamatUsersById = async (req, res) => {
 
 const tambahAlamatUsers = async (req, res) => {
    try {
-      const refreshToken = req.cookies.refreshToken
-      const user = await usersModel.getTokenUser({
-         refresh_token : refreshToken
-      })
-      const idUser = user[0].id_user
-
-      const {body} = req
+      const idUser = req.user.userId
       const alamat = await alamatUsersModel.addAlamatUsers(body, idUser)
 
       res.json({
@@ -65,15 +57,8 @@ const tambahAlamatUsers = async (req, res) => {
 
 const editAlamatUsers = async (req, res) => {
    try {
-      const refreshToken = req.cookies.refreshToken
-      const user = await usersModel.getTokenUser({
-         refresh_token : refreshToken
-      })
-
-      const idUser = user[0].id_user
+      const idUser = req.user.userId
       const {idAlamatUser} = req.params
-      const {body} = req
-
       const alamat = await alamatUsersModel.updateAlamatUsers(body, idUser, idAlamatUser)
 
       res.json({
@@ -87,12 +72,7 @@ const editAlamatUsers = async (req, res) => {
 
 const hapusAlamatUsers = async (req, res) => {
    try {
-      const refreshToken = req.cookies.refreshToken
-      const user = await usersModel.getTokenUser({
-         refresh_token : refreshToken
-      })
-      const idUser = user[0].id_user
-
+      const idUser = req.user.userId
       const {idAlamatUser} = req.params
       await alamatUsersModel.deleteAlamatUsers(idUser, idAlamatUser)
 
