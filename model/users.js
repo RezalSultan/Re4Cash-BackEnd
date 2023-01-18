@@ -15,10 +15,10 @@ const usersTbl = async () => {
       if (checkTable.length === 0) {
          await query(`
          CREATE TABLE users (
-            id_user INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+            id_user INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
             email VARCHAR(100) UNIQUE NOT NULL,
             password CHAR(100) NOT NULL,
-            fullname CHAR(255),
+            fullname VARCHAR(255),
             gender ENUM("Laki-Laki", "Perempuan") DEFAULT NULL,
             tgl_lahir DATE DEFAULT NULL,
             no_hp CHAR(15) DEFAULT NULL,

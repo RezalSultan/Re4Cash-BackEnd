@@ -23,7 +23,7 @@ router.patch('/users', verifyTokenUsers, updateUser)
 
 
 // DELETE - method DELETE
-router.delete("/logout/:id_user", logout)
+router.delete("/logout",verifyTokenUsers, logout)
 
 router.delete("/images", verifyTokenUsers, deletePhotoUsers)
 

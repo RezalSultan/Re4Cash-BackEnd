@@ -1,4 +1,3 @@
-const usersModel = require("../model/users")
 const alamatUsersModel = require("../model/alamatUsers")
 
 const tampilAlamatUsers = async (req, res) => {
