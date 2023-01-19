@@ -48,32 +48,32 @@ const registerPengelola = async (req, res) => {
    }
 }
 
-const loginPengelola = async (req, res, next) => {
-   try {
-      const {body} = req
-      const user = await usersModel.getEmailUser(body)
+// const loginPengelola = async (req, res, next) => {
+//    try {
+//       const {body} = req
+//       const user = await usersModel.getEmailUser(body)
 
-      const match = await bcrypt.compare(req.body.password, user[0].password)
+//       const match = await bcrypt.compare(req.body.password, user[0].password)
 
-      if(!match) return res.status(400).json({
-         message : "password anda salah"
-      })
+//       if(!match) return res.status(400).json({
+//          message : "password anda salah"
+//       })
       
-      const userId = user[0].id_user
-      const dataPengelola = await query(`SELECT * FROM pengelola WHERE id_users='${userId}'`)
-      const pengelolaToken = dataPengelola[0].token_pengelola
+//       const userId = user[0].id_user
+//       const dataPengelola = await query(`SELECT * FROM pengelola WHERE id_users='${userId}'`)
+//       const pengelolaToken = dataPengelola[0].token_pengelola
 
-      if(pengelolaToken) return res.json({
-         message: "Anda login dengan akun pengelola"
-      })
-      next()
-   } catch (error) {
-      console.log(error)
-      res.status(400).json({
-         message : "email tidak ditemukan",
-      })
-   }
-}
+//       if(pengelolaToken) return res.json({
+//          message: "Anda login dengan akun pengelola"
+//       })
+//       next()
+//    } catch (error) {
+//       console.log(error)
+//       res.status(400).json({
+//          message : "email tidak ditemukan",
+//       })
+//    }
+// }
 
 // const logout = async (req, res) => {
 //    const userId = req.user.userId
@@ -89,6 +89,5 @@ const loginPengelola = async (req, res, next) => {
 
 module.exports = {
    getAllPengelola,
-   registerPengelola,
-   loginPengelola
+   registerPengelola
 }
