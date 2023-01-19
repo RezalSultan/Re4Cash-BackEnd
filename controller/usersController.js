@@ -69,7 +69,7 @@ const login = async (req, res) => {
       )
 
       res.json({
-         authorization: `bearer ${usersToken}`
+         Authorization: `Bearer ${usersToken}`
       })
    } catch (error) {
       console.log(error)
