@@ -43,6 +43,7 @@ const tampilAlamatUsersById = async (req, res) => {
 const tambahAlamatUsers = async (req, res) => {
    try {
       const idUser = req.user.userId
+      const {body} = req
       const alamat = await alamatUsersModel.addAlamatUsers(body, idUser)
 
       res.json({
@@ -58,6 +59,7 @@ const editAlamatUsers = async (req, res) => {
    try {
       const idUser = req.user.userId
       const {idAlamatUser} = req.params
+      const {body} = req
       const alamat = await alamatUsersModel.updateAlamatUsers(body, idUser, idAlamatUser)
 
       res.json({
