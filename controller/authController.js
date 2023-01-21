@@ -75,8 +75,62 @@ const logout = async (req, res) => {
    })
 }
 
+const switchToUser = async (req, res) =>{
+   const userId = req.pengelola.userId
+   const pengelolaId = req.pengelola.pengelolaId
+   const dataUsers = await query(`SELECT email FROM users WHERE id_user='${userId}'`)
+   const email = dataUsers[0].email
+   try {
+      const usersToken = jwt.sign({userId, email}, `${process.env.USERS_TOKEN}`)
+      await usersModel.tokenUsers({
+         refresh_token : usersToken
+         }, userId
+      )
+      await pengelolaModel.tokenPengelola({
+         token_pengelola : null
+      }, pengelolaId) 
+
+      res.json({
+         message : "Berhasil berganti ke user",
+         Authorization: `Bearer ${usersToken}`
+      })
+   } catch (error) {
+      res.status(400).json({
+         message : "user tidak ditemukan",
+      })
+   }
+}
+
+const switchToPengelola = async (req, res) =>{
+   const userId = req.user.userId
+   const dataPengelola = await query(`SELECT * FROM pengelola WHERE id_users='${userId}'`)
+   const pengelolaId = dataPengelola[0].id_pengelola
+   const namaPengelola = dataPengelola[0].nama_pengelola
+   try {
+      const pengelolaToken = jwt.sign({userId, pengelolaId, namaPengelola}, `${process.env.PENGELOLA_TOKEN}`)
+      await pengelolaModel.tokenPengelola({
+         token_pengelola : pengelolaToken
+         }, pengelolaId
+      )
+      await usersModel.tokenUsers({
+         refresh_token : null
+      }, userId)  
+
+      res.json({
+         message : "Berhasil berganti ke pengelola",
+         Authorization: `Bearer ${pengelolaToken}`
+      })
+   } catch (error) {
+      res.status(400).json({
+         message : "pengelola tidak ditemukan",
+      })
+   }
+}
+
 module.exports = {
    login,
    logout,
-   logoutPengelola
+   logoutPengelola,
+   switchToUser,
+   switchToPengelola
 }

@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express();
 
-const {getAllUsers, updateUser, register, login, logout} = require("../controller/usersController")
+const {getAllUsers, updateUser, register} = require("../controller/usersController")
 // const {loginPengelola} = require("../controller/pengelolaController")
 const {verifyTokenUsers} = require("../middleware/verifyToken")
 const {uploadPhotoUsers,validationPhotoUsers, deletePhotoUsers} = require("../controller/multerUsersController");

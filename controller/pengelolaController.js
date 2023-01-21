@@ -3,6 +3,7 @@ const {query} = require("../config/query");
 const jwt = require("jsonwebtoken");
 const usersModel = require("../model/users")
 const pengelolaModel = require("../model/pengelola")
+const alamatPengelolaModel = require("../model/alamatPengelola")
 
 const getAllPengelola= async (req, res) => {
    try {
@@ -32,7 +33,7 @@ const registerPengelola = async (req, res) => {
    try {
       const dataPengelola = await pengelolaModel.addProfilePengelola(body, fullname, userId)
       const pengelolaId = dataPengelola.insertId
-      await pengelolaModel.addAlamatPengelola(body, pengelolaId)
+      await alamatPengelolaModel.addAlamatPengelola(body, pengelolaId)
 
       const pengelolaToken = jwt.sign({userId, pengelolaId, namaPengelola}, `${process.env.PENGELOLA_TOKEN}`)
       await pengelolaModel.tokenPengelola({
@@ -56,11 +57,49 @@ const registerPengelola = async (req, res) => {
    }
 }
 
-const switchUser = async (req, res) => {
-   
+const updateProfilePengelola = async (req, res) => {
+   const pengelolaId = req.pengelola.pengelolaId
+   const {body} = req
+   try {
+      const data = await pengelolaModel.updateProfilePengelola(body, pengelolaId)
+      console.log(data)
+      res.status(201).json({
+         message : "UPDATE pengelola succes",
+         data : {
+            id_pengelola : pengelolaId,
+            ...body
+         }
+      })
+   } catch (error) {
+      res.status(500).json({
+         message : "Server eror"
+      })
+   }
+}
+
+const updateAlamatPengelola = async (req, res) => {
+   const pengelolaId = req.pengelola.pengelolaId
+   const {body} = req
+   try {
+      await alamatPengelolaModel.updateAlamatPengelola(body, pengelolaId)
+
+      res.status(201).json({
+         message : "UPDATE pengelola succes",
+         data : {
+            id_pengelola : pengelolaId,
+            ...body
+         }
+      })
+   } catch (error) {
+      res.status(500).json({
+         message : "Server eror"
+      })
+   }
 }
 
 module.exports = {
    getAllPengelola,
-   registerPengelola
+   registerPengelola,
+   updateProfilePengelola,
+   updateAlamatPengelola
 }

@@ -22,6 +22,28 @@ const alamatPengelolaTbl = async () => {
    }
 }
 
+const addAlamatPengelola = async (body, idPengelola) => {
+   try {
+      const sql = await query(`INSERT INTO alamat_pengelola (id_pengelola, provinsi, kabupaten_kota, kecamatan, kode_pos, alamat_lengkap) VALUES (${idPengelola},'${body.provinsi}', '${body.kabupaten_kota}', '${body.kecamatan}', ${body.kode_pos}, '${body.alamat_lengkap}')`)
+
+      return sql;
+   } catch (error) {
+      console.log("model user " + error);
+   }
+}
+
+const updateAlamatPengelola = async (body, idPengelola) => {
+   try {
+      const sql = await query(`UPDATE alamat_pengelola SET provinsi='${body.provinsi}', kabupaten_kota='${body.kabupaten_kota}',  kecamatan='${body.kecamatan}', kode_pos=${body.kode_pos}, alamat_lengkap='${body.alamat_lengkap}' WHERE id_pengelola=${idPengelola}`)
+
+      return sql;
+   } catch (error) {
+      console.log("model " + error);
+   }
+}
+
 module.exports = {
-   alamatPengelolaTbl
+   alamatPengelolaTbl,
+   addAlamatPengelola,
+   updateAlamatPengelola
 }

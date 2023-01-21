@@ -35,6 +35,16 @@ const addProfilePengelola = async (body, fullname, idUser) => {
    }
 }
 
+const updateProfilePengelola = async (body, idPengelola) => {
+   try {
+      const sql = await query(`UPDATE pengelola p JOIN users u ON p.fullname_users = u.fullname SET p.fullname_users = '${body.fullname_users}', p.nama_pengelola='${body.nama_pengelola}',  p.no_hp_pengelola='${body.no_hp_pengelola}', p.no_rekening='${body.no_rekening}', p.email_pengelola='${body.email_pengelola}' WHERE id_pengelola=${idPengelola}`)
+
+      return sql;
+   } catch (error) {
+      console.log("model " + error);
+   }
+}
+
 const tokenPengelola = async (body, id_pengelola) => {
    try {
       const sql = await query(`UPDATE pengelola SET token_pengelola='${body.token_pengelola}' WHERE id_pengelola=${id_pengelola}`)
@@ -45,19 +55,43 @@ const tokenPengelola = async (body, id_pengelola) => {
    }
 }
 
-const addAlamatPengelola = async (body, idPengelola) => {
+const addPhotoPengelola = async (body, pengelolaId) => {
    try {
-      const sql = await query(`INSERT INTO alamat_pengelola (id_pengelola, provinsi, kabupaten_kota, kecamatan, kode_pos, alamat_lengkap) VALUES (${idPengelola},'${body.provinsi}', '${body.kabupaten_kota}', '${body.kecamatan}', ${body.kode_pos}, '${body.alamat_lengkap}')`)
+      const sql = await query(`UPDATE pengelola SET foto_pengelola ='${body.foto_pengelola}' WHERE id_pengelola=${pengelolaId}`)
 
       return sql;
    } catch (error) {
-      console.log("model user " + error);
+      console.log("model " + error);
    }
 }
+
+const getPhotoPengelola = async (pengelolaId) => {
+   try {
+      const sql = await query(`SELECT foto_pengelola from pengelola WHERE id_pengelola=${pengelolaId}`)
+
+      return sql;
+   } catch (error) {
+      console.log("model " + error);
+   }
+}
+
+const deletePhotoPengelola = async (pengelolaId) => {
+   try {
+      const sql = await query(`UPDATE pengelola SET foto_pengelola = NULL WHERE id_pengelola=${pengelolaId}`)
+
+      return sql;
+   } catch (error) {
+      console.log("model " + error);
+   }
+}
+
 
 module.exports = {
    pengelolaTbl,
    addProfilePengelola,
+   updateProfilePengelola,
    tokenPengelola,
-   addAlamatPengelola
+   addPhotoPengelola,
+   getPhotoPengelola,
+   deletePhotoPengelola
 }

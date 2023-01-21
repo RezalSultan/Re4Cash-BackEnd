@@ -2,13 +2,13 @@ const multer = require("multer")
 
 const storage = multer.diskStorage({
    destination: (req, file, cb) => {
-      cb(null, "public/images/users")
+      cb(null, "public/images/pengelola")
    },
    filename: (req, file, cb) => {
       const timeStamp = new Date().getTime()
       const fileName = file.originalname
 
-      cb(null, `user-${timeStamp}-${fileName}`)
+      cb(null, `pengelola-${timeStamp}-${fileName}`)
    }
 })
 
