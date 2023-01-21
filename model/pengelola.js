@@ -25,13 +25,23 @@ const pengelolaTbl = async () => {
    };
 };
 
-const addProfilePengelola = async (body, fullname, idUser, pengelolaToken) => {
+const addProfilePengelola = async (body, fullname, idUser) => {
    try {
-      const sql = await query(`INSERT INTO pengelola (id_users, fullname_users, nama_pengelola, no_hp_pengelola, no_rekening, email_pengelola, token_pengelola) VALUES (${idUser}, '${fullname}', '${body.nama_pengelola}', '${body.no_hp_pengelola}', '${body.no_rekening}', '${body.email_pengelola}', '${pengelolaToken}')`)
+      const sql = await query(`INSERT INTO pengelola (id_users, fullname_users, nama_pengelola, no_hp_pengelola, no_rekening, email_pengelola) VALUES (${idUser}, '${fullname}', '${body.nama_pengelola}', '${body.no_hp_pengelola}', '${body.no_rekening}', '${body.email_pengelola}')`)
 
       return sql;
    } catch (error) {
       console.log("model user " + error);
+   }
+}
+
+const tokenPengelola = async (body, id_pengelola) => {
+   try {
+      const sql = await query(`UPDATE pengelola SET token_pengelola='${body.token_pengelola}' WHERE id_pengelola=${id_pengelola}`)
+
+      return sql;
+   } catch (error) {
+      console.log("model " + error);
    }
 }
 
@@ -48,5 +58,6 @@ const addAlamatPengelola = async (body, idPengelola) => {
 module.exports = {
    pengelolaTbl,
    addProfilePengelola,
+   tokenPengelola,
    addAlamatPengelola
 }

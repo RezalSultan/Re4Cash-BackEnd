@@ -1,8 +1,6 @@
 // membuat fungsi yang akan diambil oleh routes nya
-require("dotenv").config();
 const usersModel = require("../model/users")
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
 const getAllUsers = async (req, res) => {
    try {
@@ -36,59 +34,16 @@ const register = async (req, res) => {
          password : hashPassword
       })
 
-      res.satatus(201).json({
+      res.status(201).json({
          message : "Anda berhasil mendaftar berhasil",
          data : body
       })
    } catch (error) {
-      res.status(500).json({
-         message : "Server eror",
-         serverMessage : error
-      })
-   }
-}
-
-const login = async (req, res) => {
-   try {
-      const {body} = req
-      const user = await usersModel.getEmailUser(body)
-
-      const match = await bcrypt.compare(req.body.password, user[0].password)
-
-      if(!match) return res.status(400).json({
-         message : "password anda salah"
-      })
-      
-      const userId = user[0].id_user
-      const email = user[0].email
-      const usersToken = jwt.sign({userId, email}, `${process.env.USERS_TOKEN}`)
-
-      await usersModel.tokenUsers({
-         refresh_token : usersToken
-         }, userId
-      )
-
-      res.json({
-         Authorization: `Bearer ${usersToken}`
-      })
-   } catch (error) {
       console.log(error)
-      res.status(400).json({
-         message : "email tidak ditemukan",
+      res.status(500).json({
+         message : "Server eror"
       })
    }
-}
-
-const logout = async (req, res) => {
-   const userId = req.user.userId
-
-   await usersModel.tokenUsers({
-      refresh_token : null
-   }, userId)
-
-   res.json({
-      message : "anda telah logout"
-   })
 }
 
 const updateUser = async (req,res) => {
@@ -115,7 +70,5 @@ const updateUser = async (req,res) => {
 module.exports = {
    getAllUsers,
    register,
-   login,
-   logout,
    updateUser
 }

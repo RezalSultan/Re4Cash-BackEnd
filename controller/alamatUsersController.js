@@ -17,18 +17,15 @@ const tampilAlamatUsers = async (req, res) => {
 
 const tampilAlamatUsersById = async (req, res) => {
    try {
-      const idUserAuth = parseInt(req.user.userId)
-      const {idParams} = req.params
-      const idUser = idUserAuth == idParams ? idUserAuth : null
-
-      if(idUser !== idUserAuth) return res.status(404).json({
+      const userId = req.user.userId
+      if(!userId) return res.status(404).json({
          message : "User ini belum login"
       })
 
-      const alamat = await alamatUsersModel.getAlamatUsersById(idUser)
+      const alamat = await alamatUsersModel.getAlamatUsersById(userId)
 
       if(alamat.id_user === null) return res.status(404).json({
-         message : "Data alamat maasih kosong"
+         message : "Data alamat masih kosong"
       })
 
       res.json({

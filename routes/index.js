@@ -4,6 +4,7 @@ const usersRoutes = require("./users")
 const alamatUsers = require("./alamatUsers")
 const artikelRoutes = require("./artikel")
 const pengelolaRoutes = require("./pengelola")
+const authRoutes = require("./auth")
 
 const app = express();
 
@@ -13,5 +14,6 @@ app.use(API, usersRoutes);
 app.use(API, alamatUsers);
 app.use(API, artikelRoutes);
 app.use(API, pengelolaRoutes);
+app.use(API, authRoutes);
 
 module.exports = app;

@@ -13,19 +13,12 @@ router.get("/users", verifyTokenUsers, getAllUsers)
 
 // CREATE - method POST 
 router.post("/users", register)
-
-router.post('/login', login)
-
 router.post('/images', verifyTokenUsers, upload, [validationPhotoUsers, uploadPhotoUsers])
 
 // CREATE - method PATCH, menggunakan params untuk mendapatkan path/router yang spesifik menggunakan titik 2
 router.patch('/users', verifyTokenUsers, updateUser)
 
-
-
 // DELETE - method DELETE
-router.delete("/logout",verifyTokenUsers, logout)
-
 router.delete("/images", verifyTokenUsers, deletePhotoUsers)
 
 module.exports = router;
