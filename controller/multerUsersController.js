@@ -1,5 +1,6 @@
 const usersModel = require("../model/users")
 const fs = require("fs")
+const {query} = require("../config/query");
 
 const validationPhotoUsers = (req, res, next) => {
    const { activityName, activityDescription } = req.body;
@@ -37,6 +38,35 @@ const uploadPhotoUsers = async (req, res) => {
    }
 }
 
+const updatePhotoUsers = async (req, res) => {
+   const id_user = req.user.userId
+   const body = req.file.filename
+   const photoUser = await query(`SELECT foto_user FROM users WHERE id_user=${id_user}`)
+   const photo = photoUser[0].foto_user
+
+   if(!photo) return res.status(404).json({
+      message : "Photo Not Found"
+   })
+
+   try {
+      const filepath = `./public/images/users/${photo}`
+      fs.unlinkSync(filepath)
+
+      await usersModel.addPhotoUsers({
+         foto_user: body
+      }, id_user)
+
+      res.status(201).json({
+         message: "Update berhasil",
+         data : {
+            foto_user : body
+         }
+      })
+   } catch (error) {
+      return res.status(400).json("Update gagal");
+   }
+}
+
 const deletePhotoUsers = async (req, res) => {
    const id_user = req.user.userId
    const userPhoto = await usersModel.getPhotoUsers(id_user)
@@ -61,5 +91,6 @@ const deletePhotoUsers = async (req, res) => {
 module.exports = {
    uploadPhotoUsers,
    validationPhotoUsers,
+   updatePhotoUsers,
    deletePhotoUsers
 }

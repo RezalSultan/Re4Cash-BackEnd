@@ -9,7 +9,7 @@ const pengelolaTbl = async () => {
             id_pengelola INT NOT NULL PRIMARY KEY UNIQUE AUTO_INCREMENT,
             id_users INT NOT NULL PRIMARY KEY UNIQUE,
             CONSTRAINT fk_id_users FOREIGN KEY (id_users) REFERENCES users (id_user),
-            fullname_users CHAR(255),
+            fullname_users CHAR(100),
             CONSTRAINT fk_fullname FOREIGN KEY (fullname_users) REFERENCES users (fullname) ON DELETE CASCADE ON UPDATE CASCADE,
             nama_pengelola VARCHAR(255) DEFAULT NULL,
             no_hp_pengelola VARCHAR(15) DEFAULT NULL,

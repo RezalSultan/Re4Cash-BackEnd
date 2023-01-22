@@ -11,6 +11,7 @@ const artikelTbl = async () => {
             kategori VARCHAR(100) NOT NULL,
             sub_kategori VARCHAR(100) NOT NULL,
             artikel TEXT NOT NULL,
+            foto_artikel VARCHAR(255) DEFAULT NULL,
             tanggal_artikel DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
             update_tanggal_artikel DATETIME DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
          );

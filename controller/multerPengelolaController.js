@@ -1,5 +1,6 @@
 const pengelolaModel = require("../model/pengelola")
 const fs = require("fs")
+const {query} = require("../config/query");
 
 const validationPhotoPengelola = (req, res, next) => {
    const { activityName, activityDescription } = req.body;
@@ -37,6 +38,35 @@ const uploadPhotoPengelola = async (req, res) => {
    }
 }
 
+const updatePhotoPengelola = async (req, res) => {
+   const pengelolaId = req.pengelola.pengelolaId
+   const body = req.file.filename
+   const photoPengelola = await query(`SELECT foto_pengelola FROM pengelola WHERE id_pengelola=${pengelolaId}`)
+   const photo = photoPengelola[0].foto_pengelola
+
+   if(!photo) return res.status(404).json({
+      message : "Photo Not Found"
+   })
+
+   try {
+      const filepath = `./public/images/pengelola/${photo}`
+      fs.unlinkSync(filepath)
+
+      await pengelolaModel.addPhotoPengelola({
+         foto_pengelola: body
+      }, pengelolaId)
+
+      res.status(201).json({
+         message: "Update berhasil",
+         data : {
+            foto_pengelola : body
+         }
+      })
+   } catch (error) {
+      return res.status(400).json("Update gagal");
+   }
+}
+
 const deletePhotoPengelola = async (req, res) => {
    const pengelolaId = req.pengelola.pengelolaId
    const pengelolaPhoto = await pengelolaModel.getPhotoPengelola(pengelolaId)
@@ -61,5 +91,6 @@ const deletePhotoPengelola = async (req, res) => {
 module.exports = {
    uploadPhotoPengelola,
    validationPhotoPengelola,
+   updatePhotoPengelola,
    deletePhotoPengelola
 }

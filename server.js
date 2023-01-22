@@ -21,7 +21,8 @@ app.use(cookieParser())
 app.use(bodyParser.json()).use(bodyParser.urlencoded({extended: true}));
 app.use(middlewareLogRequest)
 app.use("/assets", express.static("public/images/users"))
-app.use("/assets-pengelola", express.static("public/images/pengelola"))
+app.use("/assets", express.static("public/images/pengelola"))
+app.use("/assets", express.static("public/images/artikel"))
 
 app.use( routerAPI )
 app.use(errorHandling)
