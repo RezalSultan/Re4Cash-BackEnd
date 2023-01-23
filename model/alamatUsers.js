@@ -8,7 +8,7 @@ const alamatUsersTbl = async () => {
            CREATE TABLE alamat_user (
                id_alamat_user INT NOT NULL PRIMARY KEY UNIQUE AUTO_INCREMENT,
                id_user INT NOT NULL,
-               FOREIGN KEY (id_user) REFERENCES users (id_user) ON DELETE CASCADE,
+               FOREIGN KEY (id_user) REFERENCES users (id_user) CONSTRAINT ON DELETE CASCADE,
                provinsi VARCHAR(255) DEFAULT NULL,
                kabupaten_kota VARCHAR(255) DEFAULT NULL,
                kecamatan VARCHAR(255) DEFAULT NULL,

@@ -21,11 +21,32 @@ const getAllUsers = async (req, res) => {
 const getUsersById = async (req, res) => {
    const userId = req.user.userId
    try {
+      const userData = {};
+      const listAddress= []
       const data = await usersModel.getUsersById(userId);
+      if(data.length === 0) return res.status(400).json({message : "Invalid user!"})
 
+      for (let i = 0; i < data.length; i++) {
+         userData.id_user = data[0].id_user;
+         userData.email = data[0].email;
+         userData.fullname = data[0].fullname;
+         userData.gender = data[0].gender;
+         userData.tgl_lahir = data[0].tgl_lahir;
+         userData.no_hp = +data[0].no_hp;
+         listAddress.push({
+            id_alamat_user : data[0].id_alamat_user, 
+            provinsi: data[0].provinsi, 
+            kabupaten_kota: data[0].kabupaten_kota,
+            kecamatan: data[0].kecamatan,
+            kode_pos : data[0].kode_pos,
+            alamat_lengkap : data[0].alamat_lengkap
+         })
+      }
+      userData.listAddress = listAddress;
+      
       res.status(200).json({
          message : "GET all users succes",
-         data : data
+         data : userData
       })
    } catch (error) {
       res.status(500).json({

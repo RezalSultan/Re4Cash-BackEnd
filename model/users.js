@@ -44,7 +44,15 @@ const getAllUsers = async () => {
 
 const getUsersById = async (userId) => {
    try {
-      const sql = await query(`SELECT id_user, email, fullname, gender, tgl_lahir, no_hp, password from users WHERE id_user=${userId}`)
+      const sql = await query(`
+         SELECT 
+            u.id_user, u.email, u.fullname, u.gender, u.tgl_lahir, u.no_hp,
+            au.id_alamat_user, au.provinsi, au.kabupaten_kota, au.kecamatan, au.kode_pos,
+            au.alamat_lengkap 
+         FROM users u
+         LEFT JOIN alamat_user au ON u.id_user = au.id_user
+         WHERE u.id_user = ${userId};
+      `)
 
       return sql;
    } catch (error) {
