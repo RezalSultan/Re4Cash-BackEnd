@@ -42,6 +42,16 @@ const getAllUsers = async () => {
    }
 }
 
+const getUsersById = async (userId) => {
+   try {
+      const sql = await query(`SELECT id_user, email, fullname, gender, tgl_lahir, no_hp, password from users WHERE id_user=${userId}`)
+
+      return sql;
+   } catch (error) {
+      console.log("model" + error);
+   }
+}
+
 const getEmailUser = async (body) => {
    try {
       const sql = await query(`SELECT * from users WHERE email="${body.email}"`)
@@ -118,6 +128,7 @@ const updateUsers = async (body, id) => {
 module.exports = {
    usersTbl,
    getAllUsers,
+   getUsersById,
    register,
    tokenUsers,
    getEmailUser,

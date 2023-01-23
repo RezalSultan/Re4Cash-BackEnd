@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express();
 
-const {getAllUsers, updateUser, register} = require("../controller/usersController")
+const {getAllUsers, updateUser, register, getUsersById} = require("../controller/usersController")
 // const {loginPengelola} = require("../controller/pengelolaController")
 const {verifyTokenUsers} = require("../middleware/verifyToken")
 const {uploadPhotoUsers,validationPhotoUsers, deletePhotoUsers, updatePhotoUsers} = require("../controller/multerUsersController");
@@ -10,6 +10,7 @@ const upload = require("../middleware/multerUsers");
 
 // READ - method get
 router.get("/users", verifyTokenUsers, getAllUsers)
+router.get("/users-by-id", verifyTokenUsers, getUsersById)
 
 // CREATE - method POST 
 router.post("/users", register)

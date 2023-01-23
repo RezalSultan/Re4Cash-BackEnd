@@ -18,6 +18,23 @@ const getAllUsers = async (req, res) => {
    }
 }
 
+const getUsersById = async (req, res) => {
+   const userId = req.user.userId
+   try {
+      const data = await usersModel.getUsersById(userId);
+
+      res.status(200).json({
+         message : "GET all users succes",
+         data : data
+      })
+   } catch (error) {
+      res.status(500).json({
+         message : "Server eror",
+         serverMessage : error
+   })
+   }
+}
+
 const register = async (req, res) => {
    const {fullname, email, password, confirm_password } = req.body
    const {body} = req
@@ -69,6 +86,7 @@ const updateUser = async (req,res) => {
 
 module.exports = {
    getAllUsers,
+   getUsersById,
    register,
    updateUser
 }
