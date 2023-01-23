@@ -59,10 +59,11 @@ const registerPengelola = async (req, res) => {
 
 const updateProfilePengelola = async (req, res) => {
    const pengelolaId = req.pengelola.pengelolaId
+   const userId = req.pengelola.userId
    const {body} = req
    try {
-      const data = await pengelolaModel.updateProfilePengelola(body, pengelolaId)
-      console.log(data)
+      await pengelolaModel.updateProfilePengelola(body, pengelolaId)
+      await query(`UPDATE users SET fullname='${body.fullname}' WHERE id_user=${userId}`)
       res.status(201).json({
          message : "UPDATE pengelola succes",
          data : {

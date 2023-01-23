@@ -37,7 +37,7 @@ const addProfilePengelola = async (body, fullname, idUser) => {
 
 const updateProfilePengelola = async (body, idPengelola) => {
    try {
-      const sql = await query(`UPDATE pengelola p JOIN users u ON p.fullname_users = u.fullname SET p.fullname_users = '${body.fullname_users}', p.nama_pengelola='${body.nama_pengelola}',  p.no_hp_pengelola='${body.no_hp_pengelola}', p.no_rekening='${body.no_rekening}', p.email_pengelola='${body.email_pengelola}' WHERE id_pengelola=${idPengelola}`)
+      const sql = await query(`UPDATE pengelola SET nama_pengelola='${body.nama_pengelola}',  no_hp_pengelola='${body.no_hp_pengelola}', no_rekening='${body.no_rekening}', email_pengelola='${body.email_pengelola}' WHERE id_pengelola=${idPengelola}`)
 
       return sql;
    } catch (error) {
