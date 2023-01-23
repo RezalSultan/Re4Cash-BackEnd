@@ -23,6 +23,25 @@ const getAllPengelola= async (req, res) => {
    }
 }
 
+const getPengelolaById = async (req, res) => {
+   const pengelolaId = req.pengelola.pengelolaId
+   try {
+      const data = await query(`SELECT id_pengelola, id_users, fullname_users, nama_pengelola, no_hp_pengelola, no_rekening, email_pengelola, foto_pengelola from pengelola WHERE id_pengelola=${pengelolaId}`);
+      const alamat = await query(`SELECT * from alamat_pengelola WHERE id_pengelola=${pengelolaId}`)
+
+      res.status(200).json({
+         message : "GET pengelola succes",
+         data : data,
+         alamat : alamat
+      })
+   } catch (error) {
+      res.status(500).json({
+         message : "Server eror",
+         serverMessage : error
+   })
+   }
+}
+
 const registerPengelola = async (req, res) => {
    const emailUser = req.user.email
    const userId = req.user.userId
@@ -100,6 +119,7 @@ const updateAlamatPengelola = async (req, res) => {
 
 module.exports = {
    getAllPengelola,
+   getPengelolaById,
    registerPengelola,
    updateProfilePengelola,
    updateAlamatPengelola
