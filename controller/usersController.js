@@ -34,12 +34,12 @@ const getUsersById = async (req, res) => {
          userData.tgl_lahir = data[0].tgl_lahir;
          userData.no_hp = +data[0].no_hp;
          listAddress.push({
-            id_alamat_user : data[0].id_alamat_user, 
-            provinsi: data[0].provinsi, 
-            kabupaten_kota: data[0].kabupaten_kota,
-            kecamatan: data[0].kecamatan,
-            kode_pos : data[0].kode_pos,
-            alamat_lengkap : data[0].alamat_lengkap
+            id_alamat_user : data[i].id_alamat_user, 
+            provinsi: data[i].provinsi, 
+            kabupaten_kota: data[i].kabupaten_kota,
+            kecamatan: data[i].kecamatan,
+            kode_pos : data[i].kode_pos,
+            alamat_lengkap : data[i].alamat_lengkap
          })
       }
       userData.listAddress = listAddress;
