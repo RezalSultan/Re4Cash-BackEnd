@@ -66,7 +66,8 @@ const registerPengelola = async (req, res) => {
 
       res.status(201).json({
          message : "Anda berhasil mendaftar sebagai pengelola",
-         data : body
+         data : body,
+         Authorization: `Bearer ${pengelolaToken}`
       })
    } catch (error) {
       console.log(error)
