@@ -6,14 +6,18 @@ const alamatUsersTbl = async () => {
       if (checkTable.length === 0){
          await query(`
            CREATE TABLE alamat_user (
-               id_alamat_user INT NOT NULL PRIMARY KEY UNIQUE AUTO_INCREMENT,
+               id INT NOT NULL PRIMARY KEY UNIQUE AUTO_INCREMENT,
                id_user INT NOT NULL,
-               FOREIGN KEY (id_user) REFERENCES users (id_user) CONSTRAINT ON DELETE CASCADE,
+               FOREIGN KEY (id_user) REFERENCES users (id) CONSTRAINT ON DELETE CASCADE,
                provinsi VARCHAR(255) DEFAULT NULL,
                kabupaten_kota VARCHAR(255) DEFAULT NULL,
                kecamatan VARCHAR(255) DEFAULT NULL,
                kode_pos INT(15) DEFAULT NULL,
-               alamat_lengkap TEXT(255) DEFAULT NULL
+               alamat_lengkap TEXT(255) DEFAULT NULL,
+               created_by BIGINT DEFAULT NULL,
+               update_by BIGINT DEFAULT NULL,
+               update_at DATETIME DEFAULT NULL,
+               created_at DATETIME DEFAULT NULL
            );
          `)
       }
@@ -35,7 +39,7 @@ const getAlamatUsers = async () => {
 
 const getAlamatUsersById = async (idUser) => {
    try {
-      const sql = await query(`SELECT id_alamat_user, provinsi, kabupaten_kota, kecamatan, kode_pos, alamat_lengkap from alamat_user WHERE id_user=${idUser}`)
+      const sql = await query(`SELECT id, provinsi, kabupaten_kota, kecamatan, kode_pos, alamat_lengkap from alamat_user WHERE id_user=${idUser}`)
 
       return sql;
    } catch (error) {
@@ -55,7 +59,7 @@ const addAlamatUsers = async (body, idUser) => {
 
 const updateAlamatUsers = async (body, idUser, idAlamatUser) => {
    try {
-      const sql = await query(`UPDATE alamat_user SET provinsi='${body.provinsi}', kabupaten_kota='${body.kabupaten_kota}', kecamatan='${body.kecamatan}', kode_pos=${body.kode_pos}, alamat_lengkap='${body.alamat_lengkap}' WHERE id_user=${idUser} AND id_alamat_user=${idAlamatUser}`)
+      const sql = await query(`UPDATE alamat_user SET provinsi='${body.provinsi}', kabupaten_kota='${body.kabupaten_kota}', kecamatan='${body.kecamatan}', kode_pos=${body.kode_pos}, alamat_lengkap='${body.alamat_lengkap}' WHERE id_user=${idUser} AND id=${idAlamatUser}`)
 
       return sql;
    } catch (error) {
@@ -65,7 +69,7 @@ const updateAlamatUsers = async (body, idUser, idAlamatUser) => {
 
 const deleteAlamatUsers = async (idUser, idAlamatUser) => {
    try {
-      const sql = await query(`DELETE FROM alamat_user WHERE id_user=${idUser} AND id_alamat_user=${idAlamatUser}`)
+      const sql = await query(`DELETE FROM alamat_user WHERE id_user=${idUser} AND id=${idAlamatUser}`)
 
       return sql;
    } catch (error) {

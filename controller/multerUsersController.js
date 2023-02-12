@@ -41,7 +41,7 @@ const uploadPhotoUsers = async (req, res) => {
 const updatePhotoUsers = async (req, res) => {
    const id_user = req.user.userId
    const body = req.file.filename
-   const photoUser = await query(`SELECT foto_user FROM users WHERE id_user=${id_user}`)
+   const photoUser = await query(`SELECT foto_user FROM users WHERE id=${id_user}`)
    const photo = photoUser[0].foto_user
 
    if(!photo) return res.status(404).json({

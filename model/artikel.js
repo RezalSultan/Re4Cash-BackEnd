@@ -6,14 +6,16 @@ const artikelTbl = async () => {
       if (checkTable.length === 0) {
          await query(`
          CREATE TABLE artikel (
-            id_artikel INT NOT NULL PRIMARY KEY UNIQUE AUTO_INCREMENT,
+            id INT NOT NULL PRIMARY KEY UNIQUE AUTO_INCREMENT,
             judul_artikel VARCHAR(100) NOT NULL,
             kategori VARCHAR(100) NOT NULL,
             sub_kategori VARCHAR(100) NOT NULL,
             artikel TEXT NOT NULL,
             foto_artikel VARCHAR(255) DEFAULT NULL,
             tanggal_artikel DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            update_tanggal_artikel DATETIME DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+            update_tanggal_artikel DATETIME DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+            created_by BIGINT DEFAULT NULL,
+            update_by BIGINT DEFAULT NULL
          );
          `);
       }

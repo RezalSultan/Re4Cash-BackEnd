@@ -4,7 +4,6 @@ const bodyParser = require("body-parser");
 const { createServer } = require("http");
 const {executeTbl } = require("./config/index")
 const cors = require("cors")
-const cookieParser = require("cookie-parser");
 
 const routerAPI = require("./routes/index")
 
@@ -17,7 +16,6 @@ const server = createServer(app);
 executeTbl()
 
 app.use(cors())
-app.use(cookieParser())
 app.use(bodyParser.json()).use(bodyParser.urlencoded({extended: true}));
 app.use(middlewareLogRequest)
 app.use("/assets", express.static("public/images/users"))

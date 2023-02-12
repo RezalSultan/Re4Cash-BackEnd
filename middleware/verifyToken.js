@@ -13,8 +13,9 @@ const verifyTokenUsers = async (req, res, next) => {
 
       // adding validation 
       const checkUser = await query(`
-         SELECT id_user as id FROM users WHERE id_user = ${userId}
+         SELECT id FROM users WHERE id = ${userId}
       `);
+      console.log(checkUser)
 
       if(checkUser.length === 0 ) return  res.status(401).json({
          message : "Unauthorize user!"
@@ -41,7 +42,7 @@ const verifyTokenPengelola = async (req, res, next) => {
 
       // adding validation 
       const checkPengelola = await query(`
-         SELECT id_pengelola as id FROM pengelola WHERE id_pengelola = ${pengelolaId}
+         SELECT id FROM pengelola WHERE id = ${pengelolaId}
       `);
 
       if(checkPengelola.length === 0 ) return  res.status(401).json({
